@@ -1,33 +1,57 @@
 <?php
-
 session_start();
 
+
 if (!isset($_SESSION['a'])) {
-    $_SESSION['a'] = [];
+    // $_SESSION['a'] = [];
+    $_SESSION['obj'] = []; //<-- agurko obj
     $_SESSION['agurku ID'] = 0;
 }
-_d($_SESSION);
+
+include __DIR__.'/Agurkas.php';
+
 
 // SODINIMO SCENARIJUS
 if (isset($_POST['sodinti'])) {
 
-    $_SESSION['a'][] = [
-        'id' => ++$_SESSION['agurku ID'],
-        'agurkai' => 0
-    ];
+$agurkasObj = new Agurkas($_SESSION['agurku ID']);
+// $agurkasObj->ID = $_SESSION['agurku ID'] +1;
+// $agurkasObj->count = 0;
+
+$_SESSION['obj'][]= serialize($agurkasObj);
+$_SESSION['agurku ID']++;
+
+    // $_SESSION['a'][] = [
+    //     'id' => ++$_SESSION['agurku ID'],
+    //     'agurkai' => 0
+    // ];
+
     header('Location: http://localhost/PHP/nd/Agurkai/sodinimas.php');
     exit;
+
+
 }
 // ISROVIMO SCENARIJUS
 if (isset($_POST['rauti'])) {
-    foreach($_SESSION['a'] as $index => $agurkas) {
-        if ($_POST['rauti'] == $agurkas['id']) {
-            unset($_SESSION['a'][$index]);
+//     foreach($_SESSION['a'] as $index => $agurkas) {
+//         if ($_POST['rauti'] == $agurkas['id']) {
+//             unset($_SESSION['a'][$index], $_SESSION['obj'][$index]);
+//             header('Location: http://localhost/PHP/nd/Agurkai/sodinimas.php');
+//             exit;
+//         }
+//     }
+// }
+
+    foreach($_SESSION['obj'] as $index => $agurkas) {
+        $agurkas = unserialize($agurkas);
+        if ($_POST['rauti'] == $agurkas->ID) {
+            unset($_SESSION['obj'][$index]);
             header('Location: http://localhost/PHP/nd/Agurkai/sodinimas.php');
             exit;
         }
     }
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -53,13 +77,14 @@ if (isset($_POST['rauti'])) {
 <h3>Sodinimas</h3>
 
     <form action="" method="post">
-    <?php foreach($_SESSION['a'] as $agurkas): ?>
+    <?php foreach($_SESSION['obj'] as $agurkas): ?>
+    <?php $agurkas = unserialize($agurkas) ?>
 
     <div class="row">
     <div class="cucumber" > <img src="agurkas.jpg" alt="agurkas" ></div>
-    <div class="nr"> Agurkas nr. <?= $agurkas['id'] ?></div> 
-    <div class="count" > Agurkų: <?= $agurkas['agurkai'] ?> </div> 
-    <button class="sumbit" type="submit" name="rauti" value="<?= $agurkas['id'] ?>">Išrauti</button>
+    <div class="nr"> Agurkas nr. <?= $agurkas->ID ?></div> 
+    <div class="count" > Agurkų: <?= $agurkas->count ?> </div> 
+    <button class="sumbit" type="submit" name="rauti" value="<?= $agurkas->ID ?>">Išrauti</button>
     </div>
 
 
