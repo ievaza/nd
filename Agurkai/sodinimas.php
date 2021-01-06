@@ -12,7 +12,7 @@ include __DIR__.'/Agurkas.php';
 
 
 // SODINIMO SCENARIJUS
-if (isset($_POST['sodinti'])) {
+if (isset($_POST['sodintiA'])) {
 
 $agurkasObj = new Agurkas($_SESSION['agurku ID']);
 // $agurkasObj->ID = $_SESSION['agurku ID'] +1;
@@ -89,7 +89,9 @@ if (isset($_POST['rauti'])) {
 
 
     <?php endforeach ?>
-    <button class="last-btn" type="submit" name="sodinti">SODINTI</button>
+    <button class="last-btn" type="submit" name="sodintiA">SODINTI AGURKUS</button>
+    <button class="last-btn" type="submit" name="sodintiP">SODINTI POMIDORUS </button>
+
     </form>
 
 </div>

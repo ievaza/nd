@@ -4,16 +4,18 @@ class Agurkas {
     private $count,  $ID;
 
 
-    // public static function nuimtiDerliu($visiAgurkai){ // $visiAgurkai = &$_SESSION['obj']
+    public static function nuimtiDerliu($visiAgurkai){ // $visiAgurkai = &$_SESSION['obj']
 
-    //         foreach($visiAgurkai as $index => $agurkas){
-    //             $agurkas = unserialize($agurkas);
-    //             $agurkas-> nuskintiVisus();
-    //             $agurkas = serialize($agurkas);
-    //             $visiAgurkai[$index]=$agurkas;
-    //         }
-    //         return $visiAgurkai;
-    // }
+            foreach($visiAgurkai as $index => $agurkas){
+                $agurkas = unserialize($agurkas);
+                $agurkas-> nuskintiVisus();
+                $agurkas = serialize($agurkas);
+                $visiAgurkai[$index]=$agurkas;
+            }
+            return $visiAgurkai;
+    }
+
+  
 
 public function __construct($lastid){
     $this-> ID = $lastid + 1;
