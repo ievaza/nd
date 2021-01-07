@@ -1,6 +1,5 @@
 <?php
 
-echo 'Sveiki ateje i miska';
 
 include __DIR__.'/Miskas.php';
 
@@ -8,6 +7,7 @@ include __DIR__.'/Lape.php';
 include __DIR__.'/Vovere.php';
 
 include __DIR__.'/Egle.php';
+echo 'Sveiki ateje i miska';
 
 echo '<br>';
 

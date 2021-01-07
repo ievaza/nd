@@ -1,0 +1,15 @@
+{
+    "name": "ieva/miskas",
+    "authors": [
+        {
+            "name": "ievaza",
+            "email": "ievaza@users.noreply.github.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "\\": "/inc/"
+        }
+    }
+}

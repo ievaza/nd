@@ -4,8 +4,8 @@ session_start();
 
 if (!isset($_SESSION['a'])) {
     // $_SESSION['a'] = [];
-    $_SESSION['obj'] = []; //<-- agurko obj
-    $_SESSION['ID'] = 0;
+    $_SESSION['obj'] = []; 
+    $_SESSION['ID naujas'] = 0;
 }
 
 include __DIR__.'/Agurkas.php';
@@ -15,28 +15,21 @@ include __DIR__.'/Pomidoras.php';
 // SODINIMO SCENARIJUS
 if (isset($_POST['sodintiA'])) {
 
-$agurkasObj = new Agurkas($_SESSION['ID']);
-// $agurkasObj->ID = $_SESSION['agurku ID'] +1;
-// $agurkasObj->count = 0;
+    $agurkasObj = new Agurkas($_SESSION['ID naujas']);
 
-$_SESSION['obj'][]= serialize($agurkasObj);
-$_SESSION['ID']++;
-
-    // $_SESSION['a'][] = [
-    //     'id' => ++$_SESSION['agurku ID'],
-    //     'agurkai' => 0
-    // ];
+    $_SESSION['obj'][]= serialize($agurkasObj);
+    $_SESSION['ID naujas']++;
 
     header('Location: http://localhost/PHP/nd/Agurkai/sodinimas.php');
     exit;
 }
 
 if (isset($_POST['sodintiP'])) {
-
-        $pomObj = new Pomidoras($_SESSION['ID']);
+    
+        $pomObj = new Pomidoras($_SESSION['ID naujas']);
 
         $_SESSION['obj'][]= serialize($pomObj);
-        $_SESSION['ID']++;
+        $_SESSION['ID naujas']++;
 
     header('Location: http://localhost/PHP/nd/Agurkai/sodinimas.php');
     exit;
@@ -45,14 +38,6 @@ if (isset($_POST['sodintiP'])) {
 
 // ISROVIMO SCENARIJUS
 if (isset($_POST['rauti'])) {
-//     foreach($_SESSION['a'] as $index => $agurkas) {
-//         if ($_POST['rauti'] == $agurkas['id']) {
-//             unset($_SESSION['a'][$index], $_SESSION['obj'][$index]);
-//             header('Location: http://localhost/PHP/nd/Agurkai/sodinimas.php');
-//             exit;
-//         }
-//     }
-// }
 
     foreach($_SESSION['obj'] as $index => $agurkas) {
         $agurkas = unserialize($agurkas);
@@ -90,12 +75,13 @@ if (isset($_POST['rauti'])) {
 
     <form action="" method="post">
     <?php foreach($_SESSION['obj'] as $darzove): ?>
+    
         <?php $darzove = unserialize($darzove) ?>
         <?php if ($darzove instanceof Agurkas):?>
 
 
         <div class="row">
-        <div class="cucumber" > <img src="agurkas.jpg" alt="agurkas" ></div>
+        <div class="cucumber" > <img src="img/agurkas.jpg" alt="agurkas" ></div>
         <div class="nr"> Agurkas nr. <?= $darzove->ID ?></div> 
         <div class="count" > Agurkų: <?= $darzove->count ?> </div> 
         <button class="sumbit" type="submit" name="rauti" value="<?= $darzove->ID ?>">Išrauti</button>
