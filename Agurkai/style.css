@@ -47,15 +47,20 @@ form{
 }
 
 .row{
-    height: 70px;
+   display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin: 0 0 10px; 
 }
 
 .cucumber{
     display:inline;
 }
 img {
-    width:10%;
-    border-radius: 50px;
+    width:60px;
+    height: 60px;
+    border-radius: 30px;
     margin: auto;
 }
 .nr{
@@ -89,7 +94,6 @@ button{
     float: right;
     font-size: 15px;
     align-items: center;
-    margin-top: 15px;
 }
 .last-btn {
     font-size: 20px;
@@ -106,12 +110,7 @@ button{
 /* skynimas */
 .two-btn{
      display: inline-block;
-    margin-top: 15px;
     cursor: pointer;
-
-    /* float: right; */
-   
-    /* color:sienna; */
 }
 
 .kiekis{

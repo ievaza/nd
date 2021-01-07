@@ -1,6 +1,6 @@
 <?php
 
-class Pomidoras {
+class Pomidoras extends Darzove{
     private $count,  $ID;
 
 
@@ -22,14 +22,8 @@ public function __set($propertyName, $value){
 
 }
 
-public function addPomidoras($pomidorai)
-{
-    $this->count = $this->count + $pomidorai;
-}
 
-public function nuskintiVisus()
-{
-    $this->count = 0;
-} 
+
+
 }
 

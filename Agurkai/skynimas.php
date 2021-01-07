@@ -2,15 +2,13 @@
 
 session_start();
 
-// echo "<pre>";
-
-if (!isset($_SESSION['a'])) {
-    // $_SESSION['a'] = [];
-    $_SESSION['obj']=[];
-    $_SESSION['agurku ID'] = 0;
+if (!isset($_SESSION['darzove'])) {
+    $_SESSION['darzove']=[];
+    $_SESSION['ID'] = 0;
 }
-
+include __DIR__.'/Darzove.php';
 include __DIR__.'/Agurkas.php';
+include __DIR__.'/Pomidoras.php';
 
 
 // ISROVIMO SCENARIJUS visus visus agurkus VEIKIA!!!
@@ -23,7 +21,7 @@ if (isset($_POST['skintiVisus'])) {
     //         exit;
     // }
 
-    $_SESSION['obj'] = Agurkas::nuimtiDerliu($_SESSION['obj']);
+    $_SESSION['darzove'] = Darzove::nuimtiDerliu($_SESSION['darzove']); //padaryti darzove
 
     }
 
@@ -31,12 +29,12 @@ if (isset($_POST['skintiVisus'])) {
 //ISRAUTI TAM TIKRA AGURKA 
 
 if(isset($_POST['israuti'])){
-    foreach($_SESSION['obj'] as $index => $agurkas ) {
-        $agurkas = unserialize($agurkas);
-    if ($_POST['israuti'] == $agurkas->ID){
-        $agurkas->count = 0;
-        $agurkas = serialize($agurkas);
-        $_SESSION['obj'][$index]=$agurkas;
+    foreach($_SESSION['darzove'] as $index => $darzove ) {
+        $darzove = unserialize($darzove);
+    if ($_POST['israuti'] == $darzove->ID){
+        $darzove->count = 0;
+        $darzove = serialize($darzove);
+        $_SESSION['darzove'][$index]=$darzove;
         header('Location: http://localhost/PHP/nd/Agurkai/skynimas.php');
             exit;
          }
@@ -62,18 +60,18 @@ if (isset($_POST['skinti'])){
 //         }
 //     }
 // }
-    foreach($_SESSION['obj'] as $index=>$agurkas) {
-        $agurkas = unserialize($agurkas);
-        if ($_POST['skinti'] == $agurkas->ID){
+    foreach($_SESSION['darzove'] as $index=>$darzove) {
+        $darzove = unserialize($darzove);
+        if ($_POST['skinti'] == $darzove->ID){
               $kiekis = (int) $_POST['kiek'];
-        if ($kiekis < 0 || $kiekis > $agurkas->count){
+        if ($kiekis < 0 || $kiekis > $darzove->count){
             $_SESSION['err'] = 'Blogas kiekis';
             header('Location: http://localhost/PHP/nd/Agurkai/skynimas.php');
             exit;}
 
-                $agurkas->count -= $kiekis;  
-                $agurkas= serialize($agurkas);
-                $_SESSION['obj'][$index]=$agurkas;
+                $darzove->count -= $kiekis;  
+                $darzove= serialize($darzove);
+                $_SESSION['darzove'][$index]=$darzove;
 
 
                 header('Location: http://localhost/PHP/nd/Agurkai/skynimas.php');
@@ -110,10 +108,8 @@ if (isset($_POST['skinti'])){
 </nav>
 
 
-<h1>Agurkų sodas</h1>
+<h1>Daržovių sodas</h1>
 <h3>Skynimas</h3>
-
-    
 
     <h3 style="color:red;">
      <?php
@@ -124,29 +120,50 @@ if (isset($_POST['skinti'])){
         ?>
     </h3>
   
-   <?php foreach($_SESSION['obj'] as $agurkas): ?>
-   <?php $agurkas = unserialize($agurkas);?>
-  <form action="" method="post">
+   <?php foreach($_SESSION['darzove'] as $darzove): ?>
+    <form action="" method="post">
+    <?php $darzove = unserialize($darzove);?>
 
-    <div  >
-    <div class="cucumber"> <img src="agurkas.jpg" alt="agurkas" ></div>
-    <div class="nr">Agurkas Nr. <?= $agurkas->ID ?> </div> 
-    <?php if ($agurkas->count==0): ?>
+    <?php if ($darzove instanceof Agurkas):?>
+   
+     
+
+    <div class="row">
+    <div class="cucumber"> <img src="img/agurkas.jpg" alt="agurkas" ></div>
+    <div class="nr">Agurkas Nr. <?= $darzove->ID ?> </div> 
+    <?php if ($darzove->count==0): ?>
     <div class="nr ">Negalima skinti agurku</div> 
     <?php else: ?>
-        <div class="count "> Galima skinti <?= $agurkas->count?></div> 
+        <div class="count "> Galima skinti <?= $darzove->count?></div> 
    
     <input class="kiekis" type="text" name="kiek">
-    <button class="two-btn" type="submit" name="skinti"  value="<?= $agurkas->ID?>" >Skinti</button>
-    
-    <?php _d($_SESSION);?>
+    <button class="two-btn" type="submit" name="skinti"  value="<?= $darzove->ID?>" >Skinti</button>
+    <button class="two-btn" type="submit" name="israuti" value="<?= $darzove->ID?>" >SKINTI VISUS</button>
+    <?php endif ?>
+    </div>
 
-    <button class="two-btn" type="submit" name="israuti" value="<?= $agurkas->ID?>" >SKINTI VISUS</button>
+    <?php else: ?>
+
+    <div class="row">
+    <div class="cucumber"> <img src="img/tomato.jpg" alt="pomidoras" ></div>
+    <div class="nr">Pomidoras Nr. <?= $darzove->ID ?> </div> 
+    <?php if ($darzove->count==0): ?>
+    <div class="nr ">Negalima skinti pomidoru</div> 
+    <?php else: ?>
+        <div class="count "> Galima skinti <?= $darzove->count?></div> 
+   
+    <input class="kiekis" type="text" name="kiek">
+    <button class="two-btn" type="submit" name="skinti"  value="<?= $darzove->ID?>" >Skinti</button>
+    <button class="two-btn" type="submit" name="israuti" value="<?= $darzove->ID?>" >SKINTI VISUS</button>
     <?php endif ?>
     </div>
     
+    
+    
+    <?php endif ?>
     </form> 
      <?php endforeach ?>
+
      <form action="" method="post">
        <button class="last-btn" type="submit" name="skintiVisus" >Nuimti visa derliu</button>  
      </form>

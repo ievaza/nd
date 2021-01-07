@@ -1,37 +1,36 @@
 <?php
 session_start();
 
-
-if (!isset($_SESSION['a'])) {
-    // $_SESSION['a'] = [];
-    $_SESSION['obj'] = []; 
-    $_SESSION['ID naujas'] = 0;
+if (!isset($_SESSION['darzove'])) {
+    $_SESSION['darzove'] = []; 
+    $_SESSION['ID']=0;
+    
 }
+include __DIR__.'/Darzove.php';
 
 include __DIR__.'/Agurkas.php';
 include __DIR__.'/Pomidoras.php';
 
 
 // SODINIMO SCENARIJUS
-if (isset($_POST['sodintiA'])) {
 
-    $agurkasObj = new Agurkas($_SESSION['ID naujas']);
+if(isset($_POST['sodinti'])){
 
-    $_SESSION['obj'][]= serialize($agurkasObj);
-    $_SESSION['ID naujas']++;
+    if ($_POST['sodinti']=="agurkas") {
 
-    header('Location: http://localhost/PHP/nd/Agurkai/sodinimas.php');
-    exit;
-}
-
-if (isset($_POST['sodintiP'])) {
+    $agurkasObj = new Agurkas($_SESSION['ID']);
+    $_SESSION['darzove'][]= serialize($agurkasObj);
+    $_SESSION['ID']++;
+   
+} elseif ($_POST['sodinti']=="pomidoras") {
     
-        $pomObj = new Pomidoras($_SESSION['ID naujas']);
+        $pomObj = new Pomidoras($_SESSION['ID']);
 
-        $_SESSION['obj'][]= serialize($pomObj);
-        $_SESSION['ID naujas']++;
+        $_SESSION['darzove'][]= serialize($pomObj);
+        $_SESSION['ID']++;
 
-    header('Location: http://localhost/PHP/nd/Agurkai/sodinimas.php');
+}
+header('Location: http://localhost/PHP/nd/Agurkai/sodinimas.php');
     exit;
 }
 
@@ -39,10 +38,10 @@ if (isset($_POST['sodintiP'])) {
 // ISROVIMO SCENARIJUS
 if (isset($_POST['rauti'])) {
 
-    foreach($_SESSION['obj'] as $index => $agurkas) {
+    foreach($_SESSION['darzove'] as $index => $agurkas) {
         $agurkas = unserialize($agurkas);
         if ($_POST['rauti'] == $agurkas->ID) {
-            unset($_SESSION['obj'][$index]);
+            unset($_SESSION['darzove'][$index]);
             header('Location: http://localhost/PHP/nd/Agurkai/sodinimas.php');
             exit;
         }
@@ -72,14 +71,13 @@ if (isset($_POST['rauti'])) {
 
 <h1>Agurkų sodas</h1>
 <h3>Sodinimas</h3>
-
+<!-- $_SESSION['darzove'][$_post['sodinti']] -->
     <form action="" method="post">
-    <?php foreach($_SESSION['obj'] as $darzove): ?>
-    
+    <?php foreach($_SESSION['darzove'] as $darzove): ?>
+
         <?php $darzove = unserialize($darzove) ?>
         <?php if ($darzove instanceof Agurkas):?>
-
-
+            
         <div class="row">
         <div class="cucumber" > <img src="img/agurkas.jpg" alt="agurkas" ></div>
         <div class="nr"> Agurkas nr. <?= $darzove->ID ?></div> 
@@ -89,7 +87,7 @@ if (isset($_POST['rauti'])) {
         <?php else: ?>
 
         <div class="row">
-        <div class="cucumber" > <img src="" alt="agurkas" ></div>
+        <div class="cucumber" > <img src="img/tomato.jpg" alt="pomidoras" ></div>
         <div class="nr"> Pomidoras nr. <?= $darzove->ID ?></div> 
         <div class="count" > Pomidoru: <?= $darzove->count ?> </div> 
         <button class="sumbit" type="submit" name="rauti" value="<?= $darzove->ID ?>">Išrauti</button>
@@ -98,11 +96,10 @@ if (isset($_POST['rauti'])) {
 
 
     <?php endforeach ?>
-    <button class="last-btn" type="submit" name="sodintiA">SODINTI AGURKUS</button>
-    <button class="last-btn" type="submit" name="sodintiP">SODINTI POMIDORUS </button>
+    <button class="last-btn" type="submit" name="sodinti" value="agurkas">SODINTI AGURKUS</button>
+    <button class="last-btn" type="submit" name="sodinti" value="pomidoras">SODINTI POMIDORUS </button>
     
     </form>
-<?php var_dump($_SESSION);?>
 </div>
 </body>
 </html>

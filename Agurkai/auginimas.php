@@ -1,14 +1,14 @@
 <?php
 session_start();
 
-
-if (!isset($_SESSION['a'])) {
-    // $_SESSION['a'] = [];
-    $_SESSION['obj'] = []; //<-- agurko obj
-    $_SESSION['agurku ID'] = 0;
+if (!isset($_SESSION['darzove'])) {
+    $_SESSION['darzove'] = []; 
+    $_SESSION['ID']=0;
 }
+include __DIR__.'/Darzove.php';
 
 include __DIR__.'/Agurkas.php';
+include __DIR__.'/Pomidoras.php';
 
 // AUGINIMO SCENARIJUS
 if (isset($_POST['auginti'])) {
@@ -19,17 +19,14 @@ if (isset($_POST['auginti'])) {
 
     // unset($agurkas);
 
-    foreach($_SESSION['obj'] as $index => $agurkas) { //<--stringas serializuotas
-        $agurkas = unserialize($agurkas); //<-- agurko objektas
-        $agurkas-> addAgurkas($_POST['kiekis'][$agurkas->ID]); //<- pridedam agurka
-        $agurkas = serialize($agurkas); //<-- vel stringas
-        $_SESSION['obj'][$index]=$agurkas; //<- uzsaugom agurkus, jei & parasytume, tai nereiketu sitos eilutes, bet kituose projektuose ilgesni varianta naudosim SITA
-
+    foreach($_SESSION['darzove'] as $index => $darzove) { //<--stringas serializuotas
+        $darzove = unserialize($darzove); //<-- agurko objektas
+        $darzove-> add($_POST['kiekis'][$darzove->ID]); //<- pridedam agurka
+        $darzove = serialize($darzove); //<-- vel stringas
+        $_SESSION['darzove'][$index]=$darzove; //<- uzsaugom agurkus, jei & parasytume, tai nereiketu sitos eilutes, bet kituose projektuose ilgesni varianta naudosim SITA
+       
     }
-
-
-
-
+ _d($_SESSION);
     // _d($_POST['kiekis']);
     header('Location: http://localhost/PHP/nd/Agurkai/auginimas.php');
     exit;
@@ -58,22 +55,36 @@ if (isset($_POST['auginti'])) {
 <h3>Auginimas</h3>
 
     <form action="" method="post">
-    <?php foreach($_SESSION['obj'] as $agurkas): ?>
-    <?php  $agurkas = unserialize($agurkas); ?>
+    <?php foreach($_SESSION['darzove'] as $darzove): ?>
+    <?php  $darzove = unserialize($darzove); ?>
+    
     
 
-    <div class="row">
-    <?php $kiekis = rand(2, 9) ?>
+    <?php if ($darzove instanceof Agurkas):?>
+     <?php $kiekis = rand(2, 9) ?>       
+        <div class="row">
+        <div class="cucumber" > <img src="img/agurkas.jpg" alt="agurkas" ></div>
+        <div class="nr"> Agurkas nr. <?= $darzove->ID ?></div> 
+        <div class="count" > Agurkų: <?= $darzove->count ?> </div> 
+        <div class="count">+<?= $kiekis ?></div>
+        </div>
 
-    <div class="cucumber"> <img src="agurkas.jpg" alt="agurkas"></div>
-    <div class="nr">Agurkas Nr. <?= $agurkas->ID ?> </div>
-    <div class="count"><?= $agurkas->count ?></div>
-    <div class="count">+<?= $kiekis ?></div>
+        <?php else: ?>
+     <?php $kiekis = rand(1, 3) ?>       
 
-    <input type="hidden" name="kiekis[<?= $agurkas->ID?>]" value="<?= $kiekis ?>">
-    </div>
+        <div class="row">
+        <div class="cucumber" > <img src="img/tomato.jpg" alt="pomidoras" ></div>
+        <div class="nr"> Pomidoras nr. <?= $darzove->ID ?></div> 
+        <div class="count" > Pomidoru: <?= $darzove->count ?> </div> 
+        <div class="count">+<?= $kiekis ?></div>
+     </div>
+       
+        
+        <?php endif ?>
 
-    <?php endforeach ?>
+    <input type="hidden" name="kiekis[<?= $darzove->ID?>]" value="<?= $kiekis ?>">
+       <?php endforeach ?>
+
     <button class="last-btn" type="submit" name="auginti">Auginti</button>
     </form>
 
