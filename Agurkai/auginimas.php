@@ -3,16 +3,20 @@ defined('DOOR_BELL')||die('iejimas tik pro duris');
 
 // session_start();
 
-include __DIR__.'/App.php';
+  use Main\Store;
+    use Main\App;
+    use Cucumber\Agurkas;
+    use Tomato\Pomidoras;
 
-include __DIR__.'/Darzove.php';
-include __DIR__.'/Agurkas.php';
-include __DIR__.'/Pomidoras.php';
+$store = new Store('darzove');
 
-App::session();
+
+// App::session();
+
+
 
 if (isset($_POST['auginti'])) {
-    App::auginti();
+    $store->auginti();
     App::redirect('auginimas');
 }
 
@@ -40,8 +44,8 @@ if (isset($_POST['auginti'])) {
 <h3>Auginimas</h3>
 
     <form action="" method="post">
-    <?php foreach($_SESSION['darzove'] as $darzove): ?>
-    <?php  $darzove = unserialize($darzove); ?>
+    <?php foreach($store->getAll() as $darzove): ?>
+   
     
     <?php if ($darzove instanceof Agurkas):?>
      <?php $kiekis = rand(2, 9) ?>       

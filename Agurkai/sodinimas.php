@@ -14,19 +14,31 @@ defined('DOOR_BELL')||die('iejimas tik pro duris');
     use Cucumber\Agurkas;
     use Tomato\Pomidoras;
 
-$store = new Store('darzoves');
-_d($store);
+$store = new Store('darzove');
 
 
-if(isset($_POST['sodinti'])){
-    App::sodinti();
+if(isset($_POST['sodintiA'])){
+
+        $agurkasObj = new Agurkas($store -> getNewId());
+        $store->addNewAgurkas( $agurkasObj);
+   
     App::redirect('sodinimas'); 
 }
 
+if(isset($_POST['sodintiB'])){
+
+        $pomObj = new Pomidoras($store -> getNewId());
+        $store->addNewPom( $pomObj);
+   
+    App::redirect('sodinimas'); 
+}
+
+
 if (isset($_POST['rauti'])) {
     $store->remove($_POST['rauti']);
+_d($_POST['rauti']);
+
     App::redirect('sodinimas');
- 
 }
 
 ?>
@@ -77,8 +89,8 @@ if (isset($_POST['rauti'])) {
 
 
     <?php endforeach ?>
-    <button class="last-btn" type="submit" name="sodinti" value="agurkas">SODINTI AGURKUS</button>
-    <button class="last-btn" type="submit" name="sodinti" value="pomidoras">SODINTI POMIDORUS </button>
+    <button class="last-btn" type="submit" name="sodintiA" value="agurkas">SODINTI AGURKUS</button>
+    <button class="last-btn" type="submit" name="sodintiB" value="pomidoras">SODINTI POMIDORUS </button>
     
     </form>
 </div>

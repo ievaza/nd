@@ -46,6 +46,13 @@ class Store{
         return $id;
 
     }
+
+     public function save($index, $darzove){
+
+        $darzove= serialize($darzove);
+        $this->data['darzove'][$index]=$darzove;
+
+    }
     
     public function addNewAgurkas ( Agurkas $agurkasObj){
        
@@ -68,15 +75,59 @@ class Store{
         
     }
 
-    public function remove($id){
-        foreach($this->data['darzove'] as $index => $darzove){
-            $darzove = unserialize($darzove);
-            if ($darzove->id == $id){ // su ID gali but klaida.
-                unset($this->data['darzove'][$index]);
-            }
-
+public function remove($id) {
+    foreach ($this->data['darzove'] as $key => $darzove) {
+        $darzove = unserialize($darzove);
+          if($darzove->ID == $id) {
+            unset($this->data['darzove'][$key]);
         }
-        
+    }
+}
+    public  function auginti(){
+        foreach($this->data['darzove'] as $index => $darzove) { //<--stringas serializuotas
+            $darzove = unserialize($darzove); //<-- agurko objektas
+            $darzove-> add($_POST['kiekis'][$darzove->ID]); //<- pridedam agurka
+            self::save($index, $darzove);
+
+            // $darzove = serialize($darzove); //<-- vel stringas
+            // $_SESSION['darzove'][$index]=$darzove; //<- uzsaugom agurkus, jei & parasytume, tai nereiketu sitos eilutes, bet kituose projektuose ilgesni varianta naudosim SITA
+        }
+    }
+
+    public  function nuimtiDerliu(){ // $visiAgurkai = &$_SESSION['obj']
+
+    foreach($this->data['darzove'] as $index => $darzove){
+                $darzove = unserialize($darzove);
+                $darzove-> nuskintiVisus();
+                self::save($index,$darzove);
+            }
+    }
+
+    
+    public function skinti(){
+    foreach($this->data['darzove'] as $index => $darzove ) {
+        $darzove = unserialize($darzove);
+    if ($_POST['israuti'] == $darzove->ID){
+        $darzove->count = 0;
+        self::save($index,$darzove);
+    }
+    }
+}
+
+ public  function skintiKieki(){
+        foreach($this->data['darzove'] as $index=>$darzove) {
+            $darzove = unserialize($darzove);
+        if ($_POST['skinti'] == $darzove->ID){
+            $kiekis = (int) $_POST['kiek'];
+        if ($kiekis < 0 || $kiekis > $darzove->count){
+            $_SESSION['err'] = 'Blogas kiekis';
+            header('Location: http://localhost/PHP/nd/Agurkai/skynimas.php');
+            exit;
+            }
+                $darzove->count -= $kiekis;
+                self::save($index, $darzove);  
+        }
+        }    
     }
 
 }

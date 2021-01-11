@@ -3,25 +3,32 @@ defined('DOOR_BELL')||die('iejimas tik pro duris');
 
 // session_start();
 
-include __DIR__.'/App.php';
+// include __DIR__.'/App.php';
 
-include __DIR__.'/Darzove.php';
-include __DIR__.'/Agurkas.php';
-include __DIR__.'/Pomidoras.php';
+// include __DIR__.'/Darzove.php';
+// include __DIR__.'/Agurkas.php';
+// include __DIR__.'/Pomidoras.php';
 
-App::session();
+// App::session();
+
+ use Main\Store;
+    use Main\App;
+    use Cucumber\Agurkas;
+    use Tomato\Pomidoras;
+
+$store = new Store('darzove');
 
 if (isset($_POST['skintiVisus'])) {
-    App::nuimtiDerliu($_SESSION['darzove']);
+    $store->nuimtiDerliu($_POST['skintiVisus']);
 }
 
 if(isset($_POST['israuti'])){
-    App::skinti();
+    $store->skinti();
     App::redirect('skynimas');
 }
 
 if (isset($_POST['skinti'])){ //tam tikra kieki
-    App::skintiKieki();
+    $store->skintiKieki();
     App::redirect('skynimas');
 }
 
@@ -64,9 +71,9 @@ if (isset($_POST['skinti'])){ //tam tikra kieki
         ?>
     </h3>
   
-   <?php foreach($_SESSION['darzove'] as $darzove): ?>
+   <?php foreach($store->getAll() as $darzove): ?>
     <form action="" method="post">
-    <?php $darzove = unserialize($darzove);?>
+
 
     <?php if ($darzove instanceof Agurkas):?>
    
