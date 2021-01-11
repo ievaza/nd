@@ -1,4 +1,7 @@
 <?php
+namespace Cucumber;
+
+use Veggies\Darzove;
 
 class Agurkas extends Darzove {
     private $count,  $ID, $prieaugis;

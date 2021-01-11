@@ -1,5 +1,7 @@
 {
     "name": "ieva/miskas",
+    "description": "nebutinai",
+    "license": "MIT",
     "authors": [
         {
             "name": "ievaza",

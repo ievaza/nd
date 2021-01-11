@@ -1,9 +1,15 @@
-<?php 
+<?php
+define('DOOR_BELL','ring');
+define('INSTAL_FOLDER', '/PHP/nd/Agurkai/'); //konstanta , instalecinis folderis ir ji ismetu:
+define('URL','http://localhost/PHP/nd/Agurkai/');
+define('DIR', __DIR__);
 
-echo 'sveiki';
 
-include __DIR__.'/Agurkai.php';
+include __DIR__.'/bootstrap.php'; // kur kabykla rubam kabinti 
 
-$agurkas = new Agurkai;
 
-var_dump($agurkas);
+//Router
+Main\App::route();
+
+
+
