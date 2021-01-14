@@ -10,6 +10,7 @@ $gautaInfo = 'Info nerasta';
     }
 
     elseif('POST' == $_SERVER['REQUEST_METHOD']){
+        
        $rawData = file_get_contents("php://input"); //input stream, susemia info 
        $rawData = json_decode($rawData);//issikoduoja faila, jei 1 pridesim tai gausim masyva, o be 1 tai gaunam standartines klases obj
 
@@ -41,7 +42,7 @@ $gautaInfo = 'Info nerasta';
     <title>JS</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" defer integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous"></script>
     <script src="http://localhost/PHP/nd/js/app.js" defer></script>
-    <script> const apiUrl = 'http://localhost/PHP/nd/js/';</script> 
+    <script> const apiUrl = './index.php';</script> 
 </head>
 <body>
 

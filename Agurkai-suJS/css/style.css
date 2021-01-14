@@ -1,0 +1,120 @@
+body {
+/* background-color: rgb(102, 187, 106); */
+background-image: url(img/again.jpg);
+}
+.box{
+    background-color: seagreen;
+    border-radius: 25px;
+    width: 600px;
+    height: auto;
+    position: absolute;
+    margin: auto;
+    left: 0; 
+    right: 0;   
+    top:50px;
+ }
+a{
+    color: white;
+    text-shadow: 2px 2px 4px #000000;
+    text-decoration: none;
+    background-color: rgb(90, 177, 94);
+    padding: 10px 20px;
+    border-radius: 25px;
+    margin: 20px;
+    text-transform: uppercase;
+    display: inline-block;
+    align-items: center;
+    margin-left: 45px;
+}
+
+a:hover{
+    color:rgb(90, 177, 94);
+    background-color: white;
+    text-shadow: 2px 2px 4px grey;
+}
+h1{
+    color: white;
+    text-shadow: 2px 2px 4px #000000;
+    text-align: center;  
+}
+h3{
+    color: white;
+    text-shadow: 2px 2px 4px #000000;
+    text-align: center;  
+}
+form{
+    margin: 10px 50px;
+}
+
+.row{
+   display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin: 0 0 10px; 
+}
+
+.cucumber{
+    display:inline;
+}
+img {
+    width:60px;
+    height: 60px;
+    border-radius: 30px;
+    margin: auto;
+}
+.nr{
+    display:inline-block; 
+    margin: 0px 20px;
+    line-height: 70px;
+}
+.count{
+    display:inline-block;
+    padding-left:15px;
+    line-height: 70px;
+}
+p{
+
+    display:inline-block;
+    line-height: 70px;
+    color:red;
+}
+button{
+    padding: 10px 20px;
+     border-radius: 25px;
+    border:none;
+     color:rgb(90, 177, 94);
+    background-color: white;
+    text-shadow: 2px 2px 4px grey;
+    
+}
+
+.sumbit{
+   display: inline-block;
+    float: right;
+    font-size: 15px;
+    align-items: center;
+}
+.last-btn {
+    font-size: 20px;
+    display: block;
+    margin: auto;
+    margin-top:30px;
+}
+.last-btn:hover{
+    color: white;
+    text-shadow: 2px 2px 4px #000000;
+    background-color: rgb(90, 177, 94);
+    cursor: pointer;
+}
+/* skynimas */
+.two-btn{
+     display: inline-block;
+    cursor: pointer;
+}
+
+.kiekis{
+    margin:25px;
+    width: 90px;
+}
+

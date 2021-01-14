@@ -20,7 +20,7 @@ button.addEventListener('click', () => {
             place.innerHTML = response.data.ans;
         })
         .catch(function (error) { //kai gaunam kvaila ats kai ne 200
-            console.log(error);
+            // console.log("error");
         });
 
     console.log(info)
