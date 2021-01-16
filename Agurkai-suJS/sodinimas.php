@@ -73,7 +73,7 @@ if('POST' == $_SERVER['REQUEST_METHOD']){
 
 }
   
-if (isset($_POST['rauti'])) {
+elseif (isset($rawData['rauti'])) {
     $store->remove($rawData['id']);
 
         ob_start();

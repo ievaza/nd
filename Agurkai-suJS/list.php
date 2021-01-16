@@ -1,7 +1,10 @@
  <?php foreach( $store->getAll() as $agurkas): ?>
-    <div>
-    Agurkas nr. <?= $agurkas->ID ?>
+    <div class="agurkas">
+    Agurkas nr. <?= $agurkas->id ?>
     Agurkų: <?= $agurkas->count ?>
-    <button type="button" name="rauti" value="<?= $agurkas->ID ?>">Išrauti</button>
+    <button type="button" name="rauti" value="<?= $agurkas->id ?>">Išrauti</button>
     </div>
     <?php endforeach ?>
+    
+
+

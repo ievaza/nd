@@ -6,13 +6,13 @@ const errorMsg = document.querySelector('#error');
 
 const addNewList = () => {
     const agurkai = document.querySelectorAll('.agurkas');
-    console.log(agurkai);
+    // console.log(agurkai);
     agurkai.forEach(agurkas => {
-        console.log(agurkas);
+        // console.log(agurkas);
         agurkas.querySelector('[type=button]').addEventListener('click', () => {
             const id = agurkas.querySelector('[name=rauti]').value;
             axios.post(apiUrl, {
-                ID: id,
+                id: id,
                 rauti: 1
 
             })

@@ -17,8 +17,8 @@ class Store{
 
         $this->fileName = $file;
         if(!file_exists(self::PATH.$this->fileName.'.json')){
-            file_put_contents(self::PATH.$this->fileName.'.json', json_encode(['agurkas' => [], 'ID' => 0 ]));// sukuriam json faila su pradiniu masyvu
-            $this->data = ['agurkas' => [], 'ID' => 0 ];
+            file_put_contents(self::PATH.$this->fileName.'.json', json_encode(['agurkas' => [], 'id' => 0 ]));// sukuriam json faila su pradiniu masyvu
+            $this->data = ['agurkas' => [], 'id' => 0 ];
         } else{
             $this->data = file_get_contents(self::PATH.$this->fileName.'.json'); //nuskaitom faila
             $this->data = json_decode ($this->data, 1); //paverciam masyvu
@@ -40,9 +40,9 @@ class Store{
         $this->data = $data;
     }
 
-    public function getNewId(){
-        $id = $this->data['ID'];
-        $this->data['ID']++;
+    public function getNewid(){
+        $id = $this->data['id'];
+        $this->data['id']++;
         return $id;
 
     }
@@ -78,7 +78,7 @@ class Store{
 public function remove($id) {
     foreach ($this->data['agurkas'] as $key => $darzove) {
         $darzove = unserialize($darzove);
-          if($darzove->ID == $id) {
+          if($darzove->id == $id) {
             unset($this->data['agurkas'][$key]);
         }
     }
@@ -86,7 +86,7 @@ public function remove($id) {
     public  function auginti(){
         foreach($this->data['agurkas'] as $index => $darzove) { //<--stringas serializuotas
             $darzove = unserialize($darzove); //<-- agurko objektas
-            $darzove-> add($_POST['kiekis'][$darzove->ID]); //<- pridedam agurka
+            $darzove-> add($_POST['kiekis'][$darzove->id]); //<- pridedam agurka
             self::save($index, $darzove);
 
             // $darzove = serialize($darzove); //<-- vel stringas
@@ -107,7 +107,7 @@ public function remove($id) {
     public function skinti(){
     foreach($this->data['agurkas'] as $index => $darzove ) {
         $darzove = unserialize($darzove);
-    if ($_POST['israuti'] == $darzove->ID){
+    if ($_POST['israuti'] == $darzove->id){
         $darzove->count = 0;
         self::save($index,$darzove);
     }
@@ -117,7 +117,7 @@ public function remove($id) {
  public  function skintiKieki(){
         foreach($this->data['agurkas'] as $index=>$darzove) {
             $darzove = unserialize($darzove);
-        if ($_POST['skinti'] == $darzove->ID){
+        if ($_POST['skinti'] == $darzove->id){
             $kiekis = (int) $_POST['kiek'];
         if ($kiekis < 0 || $kiekis > $darzove->count){
             $_SESSION['err'] = 'Blogas kiekis';
