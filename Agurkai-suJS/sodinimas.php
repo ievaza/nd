@@ -1,29 +1,37 @@
 <?php
 defined('DOOR_BELL')||die('iejimas tik pro duris');
 
-  use Main\Store;
+    use Main\Store;
     use Main\App;
     use Cucumber\Agurkas;
     use Tomato\Pomidoras;
 
-
 $store = new Store('agurkas');
-_d($store);
 
-
-// if('POST' == $_SERVER['REQUEST_METHOD']){
+if('POST' == $_SERVER['REQUEST_METHOD']){
         
-//        $rawData = file_get_contents("php://input"); 
-//        $rawData = json_decode($rawData,1);
-// }
+       $rawData = file_get_contents("php://input"); 
+       $rawData = json_decode($rawData,1);
 
-// $rawData pakeiciem vietoj POST
+//LISTO SCENARIJUS
 
+     if (isset($rawData['list'])){
+        ob_start();
+        include __DIR__.'/list.php';
+        $out=  ob_get_contents();
+        ob_end_clean();
+        $json = [ 'list' => $out];
+        $json = json_encode($json);
+        header('Content-type: application/json');
+        http_response_code(200);
+        echo $json;
+        exit;
 
+     }
 
-if (isset($_POST['sodinti'])){
-    print_r($_POST);
-    $kiekis = (int) $_POST['kiekis'];
+    elseif (isset($rawData['sodinti'])){
+
+    $kiekis = (int) $rawData['kiekis'];
  
         if (0 > $kiekis || 4 < $kiekis) { // <--- validacija
             if (0 > $kiekis) {
@@ -32,9 +40,18 @@ if (isset($_POST['sodinti'])){
             elseif(4 < $kiekis) {
                 $error = 2; // <-- per daug
             }
-    
 
-        header('Location:'.URL.'sodinimas');
+        //buferai-pilu vandeni ir pakisu kibira ir vanduo jau bega i kibira
+        ob_start();
+        include __DIR__.'/error.php';
+        $out=  ob_get_contents();
+        ob_end_clean();
+        //vietoj to kad sis failas isecho error mes juos perkelsim i kintamaji, nes kitu atveju, jis net nepadares klaidos jau echo klaida
+        $json = [ 'msg' => $out];
+        $json = json_encode($json);
+        header('Content-type: application/json');
+        http_response_code(400);
+        echo $json;
         exit;
         
     }
@@ -42,35 +59,35 @@ if (isset($_POST['sodinti'])){
     foreach (range(1,$kiekis) as $_){
         $agurkasObj = new Agurkas($store->getNewId());
         $store->addNew($agurkasObj);
-    }
-    App::redirect('sodinimas');
+    } //json faile updatinam agurkus
+         ob_start();
+        include __DIR__.'/list.php';
+        $out=  ob_get_contents();
+        ob_end_clean();
+        $json = [ 'list' => $out];
+        $json = json_encode($json); //pavercia i json
+        header('Content-type: application/json');
+        http_response_code(201); //pridejimo kodas
+        echo $json;
+        exit;
 
 }
-
-
-
-// if(isset($_POST['sodintiA'])){
-
-//         $agurkasObj = new Agurkas($store -> getNewId());
-//         $store->addNewAgurkas( $agurkasObj);
-   
-//     App::redirect('sodinimas'); 
-// }
-
-// if(isset($_POST['sodintiB'])){
-
-//         $pomObj = new Pomidoras($store -> getNewId());
-//         $store->addNewPom( $pomObj);
-   
-//     App::redirect('sodinimas'); 
-// }
-
-
+  
 if (isset($_POST['rauti'])) {
-    $store->remove($_POST['rauti']);
-_d($_POST['rauti']);
+    $store->remove($rawData['id']);
 
-    App::redirect('sodinimas');
+        ob_start();
+        include __DIR__.'/list.php';
+        $out=  ob_get_contents();
+        ob_end_clean();
+        $json = [ 'list' => $out];
+        $json = json_encode($json); //pavercia i json
+        header('Content-type: application/json');
+        http_response_code(200); //pridejimo kodas
+        echo $json;
+        exit;
+
+}
 }
 
 ?>
@@ -82,7 +99,7 @@ _d($_POST['rauti']);
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" defer integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous"></script>
-    <!-- <script src="http://localhost/PHP/nd/Agurkai-suJS/app.js" defer></script> -->
+    <script src="http://localhost/PHP/nd/Agurkai-suJS/app.js" defer></script>
     <script> const apiUrl = './sodinimas';</script> 
     <title>Sodinimas</title>
     
@@ -100,23 +117,15 @@ _d($_POST['rauti']);
 <h1>Agurkų sodas</h1>
 <h3>Sodinimas</h3>
 <!-- $_SESSION['darzove'][$_post['sodinti']] -->
-        <div id="error"></div>
-    <form action="" method="post">
+    <div id="error"></div>
+    <form >
+
 <div id="list">
 
-    <?php foreach( $store->getAll() as $agurkas): ?>
-  
-    <div>
-
-    Agurkas nr. <?= $agurkas->ID ?>
-    Agurkų: <?= $agurkas->count ?>
-    <button type="submit" name="rauti" value="<?= $agurkas->ID ?>">Išrauti</button>
-    </div>
-    <?php endforeach ?>
 
 </div>
     <input type="text" name="kiekis">
-    <button type="sumbit" name="sodinti">SODINTI</button>
+    <button type="button" name="sodinti" id="sodinti">SODINTI</button>  
 
     </form>
 
