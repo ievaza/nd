@@ -8,17 +8,48 @@ defined('DOOR_BELL')||die('iejimas tik pro duris');
     use Cucumber\Agurkas;
     use Tomato\Pomidoras;
 
-$store = new Store('darzove');
+$store = new Store('darzoves');
 
+if('POST' == $_SERVER['REQUEST_METHOD']){
+        
+       $rawData = file_get_contents("php://input"); 
+       $rawData = json_decode($rawData,1);
 
-// App::session();
+        if (isset($rawData['list'])) {
+            ob_start();
+            include __DIR__.'/list-grow.php';
+            $out = ob_get_contents();
+            ob_end_clean();
+            $json = ['list' => $out];
+            $json = json_encode($json);
+            header('Content-type: application/json');
+            http_response_code(200);
+            echo $json;
+            die;
+        }
 
+        elseif(isset($rawData['auginti'])){
+            $store->auginti(); 
 
-
-if (isset($_POST['auginti'])) {
-    $store->auginti();
-    App::redirect('auginimas');
+            ob_start();
+            include __DIR__.'/list-grow.php';
+            $out = ob_get_contents();
+            ob_end_clean();
+            $json = [ 'list' => $out];
+            $json = json_encode($json); //pavercia i json
+            header('Content-type: application/json');
+            http_response_code(201); //pridejimo kodas
+            echo $json;
+            exit;
+        }     
 }
+
+
+
+// if (isset($_POST['auginti'])) {
+//     $store->auginti();
+//     App::redirect('auginimas');
+// }
 
 ?>
 <!DOCTYPE html>
@@ -29,6 +60,11 @@ if (isset($_POST['auginti'])) {
     <title>Auginimas</title>
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" defer integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous"></script>
+    <script src="http://localhost/PHP/nd/Agurkai-suJS/js/auginimas.js" defer></script>
+    <script> const apiUrl = 'http://localhost/PHP/nd/Agurkai-suJS/auginimas';</script> 
+
+
 </head>
 
 <body>
@@ -43,31 +79,12 @@ if (isset($_POST['auginti'])) {
 <h1>Agurkų sodas</h1>
 <h3>Auginimas</h3>
 
-    <form action="" method="post">
-    <?php foreach($store->getAll() as $darzove): ?>
-   
+    <div id="error"></div>
+    <form>
     
-    <?php if ($darzove instanceof Agurkas):?>
-     <?php $kiekis = rand(2, 9) ?>       
-        <div class="row">
-            <div class="cucumber" > <img src="img/agurkas.jpg" alt="agurkas" ></div>
-            <div class="nr"> Agurkas nr. <?= $darzove->ID ?></div> 
-            <div class="count" > Agurkų: <?= $darzove->count ?> </div> 
-            <div class="count">+<?= $kiekis ?></div>
-        </div>
+    <div id="list"></div>
 
-        <?php else: ?>
-        <?php $kiekis = rand(1, 3) ?>       
-        <div class="row">
-            <div class="cucumber" > <img src="img/tomato.jpg" alt="pomidoras" ></div>
-            <div class="nr"> Pomidoras nr. <?= $darzove->ID ?></div> 
-            <div class="count" > Pomidoru: <?= $darzove->count ?> </div> 
-            <div class="count">+<?= $kiekis ?></div>
-        </div>  
-    <?php endif ?>
-    <input type="hidden" name="kiekis[<?= $darzove->ID?>]" value="<?= $kiekis ?>">
-    <?php endforeach ?>
-    <button class="last-btn" type="submit" name="auginti">Auginti</button>
+    <button class="last-btn" type="button" name="auginti" id="auginti">Auginti</button>
     </form>
 
 </div>

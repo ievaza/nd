@@ -4,13 +4,16 @@ namespace Tomato;
 use Veggies\Darzove;
 
 class Pomidoras extends Darzove{
-    private $count,  $id;
+    private $count,  $id, $name;
 
 
  
 public function __construct($lastid){
-    $this-> id = $lastid + 1;
-    $this-> count =0;
+    $this->id = $lastid + 1;
+    $this->count = 0;
+    $this->name = 'Pomidoras';
+    $this->kiekAugti = rand(1,3);
+
 }
 
 public function __get($propertyName){
@@ -22,9 +25,10 @@ public function __set($propertyName, $value){
     $this -> $propertyName = $value;
 
 }
-
-
-
+ public function kiekAugti() {
+     $this->kiekAugti = rand(1,3);
+        return  $this->kiekAugti ;
+    }
 
 }
 

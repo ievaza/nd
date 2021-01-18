@@ -17,8 +17,8 @@ class Store{
 
         $this->fileName = $file;
         if(!file_exists(self::PATH.$this->fileName.'.json')){
-            file_put_contents(self::PATH.$this->fileName.'.json', json_encode(['agurkas' => [], 'id' => 0 ]));// sukuriam json faila su pradiniu masyvu
-            $this->data = ['agurkas' => [], 'id' => 0 ];
+            file_put_contents(self::PATH.$this->fileName.'.json', json_encode(['darzoves' => [], 'id' => 0 ]));// sukuriam json faila su pradiniu masyvu
+            $this->data = ['darzoves' => [], 'id' => 0 ];
         } else{
             $this->data = file_get_contents(self::PATH.$this->fileName.'.json'); //nuskaitom faila
             $this->data = json_decode ($this->data, 1); //paverciam masyvu
@@ -50,43 +50,44 @@ class Store{
      public function save($index, $darzove){
 
         $darzove= serialize($darzove);
-        $this->data['agurkas'][$index]=$darzove;
+        $this->data['darzoves'][$index]=$darzove;
 
     }
     
-    public function addNew ( Agurkas $agurkasObj){
+    public function addNewC ( Agurkas $agurkasObj){
        
-        $this ->data['agurkas'][]=serialize($agurkasObj);
+        $this ->data['darzoves'][]=serialize($agurkasObj);
 
     }
       
-    public function addNewPom ( Pomidoras $pomObj){
+    public function addNewT ( Pomidoras $pomObj){
 
-        $this ->data['agurkas'][]=serialize($pomObj);
+        $this ->data['darzoves'][]=serialize($pomObj);
        
     }
 
     public function  getAll ( ){
         $all = [];
-        foreach ($this ->data['agurkas'] as $agurkas){
-            $all[] = unserialize($agurkas);
+        foreach ($this ->data['darzoves'] as $darzove){
+            $all[] = unserialize($darzove);
         }
         return $all;
         
     }
 
 public function remove($id) {
-    foreach ($this->data['agurkas'] as $key => $darzove) {
+    foreach ($this->data['darzoves'] as $key => $darzove) {
         $darzove = unserialize($darzove);
           if($darzove->id == $id) {
-            unset($this->data['agurkas'][$key]);
+            unset($this->data['darzoves'][$key]);
         }
     }
 }
     public  function auginti(){
-        foreach($this->data['agurkas'] as $index => $darzove) { //<--stringas serializuotas
+        foreach($this->data['darzoves'] as $index => $darzove) { //<--stringas serializuotas
             $darzove = unserialize($darzove); //<-- agurko objektas
-            $darzove-> add($_POST['kiekis'][$darzove->id]); //<- pridedam agurka
+            $darzove-> add($darzove->kiekAugti); //<- pridedam agurka
+            $darzove-> kiekAugti();
             self::save($index, $darzove);
 
             // $darzove = serialize($darzove); //<-- vel stringas
@@ -96,7 +97,7 @@ public function remove($id) {
 
     public  function nuimtiDerliu(){ // $visiAgurkai = &$_SESSION['obj']
 
-    foreach($this->data['agurkas'] as $index => $darzove){
+    foreach($this->data['darzoves'] as $index => $darzove){
                 $darzove = unserialize($darzove);
                 $darzove-> nuskintiVisus();
                 self::save($index,$darzove);
@@ -105,7 +106,7 @@ public function remove($id) {
 
     
     public function skinti(){
-    foreach($this->data['agurkas'] as $index => $darzove ) {
+    foreach($this->data['darzoves'] as $index => $darzove ) {
         $darzove = unserialize($darzove);
     if ($_POST['israuti'] == $darzove->id){
         $darzove->count = 0;
@@ -115,7 +116,7 @@ public function remove($id) {
 }
 
  public  function skintiKieki(){
-        foreach($this->data['agurkas'] as $index=>$darzove) {
+        foreach($this->data['darzoves'] as $index=>$darzove) {
             $darzove = unserialize($darzove);
         if ($_POST['skinti'] == $darzove->id){
             $kiekis = (int) $_POST['kiek'];

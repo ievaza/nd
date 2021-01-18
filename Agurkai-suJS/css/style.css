@@ -91,7 +91,8 @@ button{
 
 .sumbit{
    display: inline-block;
-    float: right;
+    /* float: left; */
+    width: 30%;
     font-size: 15px;
     align-items: center;
 }
@@ -109,12 +110,25 @@ button{
 }
 /* skynimas */
 .two-btn{
-     display: inline-block;
+    display: inline-block;
     cursor: pointer;
 }
 
 .kiekis{
     margin:25px;
     width: 90px;
+}
+.input{
+    display: inline-block;
+    width: 50%;
+    float: left;
+}
+.sodinti{
+     display: inline-block;
+    /* float: left; */
+    width: 50%;
+    font-size: 15px;
+    align-items: center;
+
 }
 
