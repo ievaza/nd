@@ -13,7 +13,7 @@ public function __construct($lastid){
     $this->count = 0;
     $this->name = 'Pomidoras';
     $this->kiekAugti = rand(1,3);
-    $this->price = 2.50;
+    $this->price = 1.50;
 
 }
 

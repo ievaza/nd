@@ -11,8 +11,8 @@ public function __construct($lastid){
     $this->count = 0;
     $this->name = 'Agurkas';
     $this->kiekAugti = rand(2,9);
-    $this->price = 5;
-    $this->kazkas = 2;
+    $this->price = 0.99;
+    
   
   
 

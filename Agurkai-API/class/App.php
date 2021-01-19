@@ -26,11 +26,12 @@ $uri = explode('/',$uri); //<- zodziu masyvas su duomenim is uri eilutes
         exit;
     }
 
-    public static function  currency($DATA) {
+    public static function currency($DATA) {
     $answer = $DATA -> get();
+    if( $answer === false){
+
 
     $ch = curl_init();
-
     curl_setopt($ch, CURLOPT_URL,
     'https://api.exchangeratesapi.io/latest');
     curl_setopt($ch,CURLOPT_RETURNTRANSFER, true); //norint kazka gaut reikia nepamirsti pasireturnint, kitaip nieko negausim. MUST HAVE
@@ -39,8 +40,8 @@ $uri = explode('/',$uri); //<- zodziu masyvas su duomenim is uri eilutes
     $answer = json_decode($answer); //issikoduojam ir gaunam standartini json obj 
     
     $DATA->set($answer);
-
+    }
     $rate = $answer->rates->USD;
-    return $rate;
-    
-}}
+    return $rate;    
+    }
+}
