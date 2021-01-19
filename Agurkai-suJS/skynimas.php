@@ -16,7 +16,7 @@ defined('DOOR_BELL')||die('iejimas tik pro duris');
     use Cucumber\Agurkas;
     use Tomato\Pomidoras;
 
-$store = new Store('darzovess');
+$store = new Store('darzoves');
 
 //lista kuriam
 
@@ -140,47 +140,9 @@ if('POST' == $_SERVER['REQUEST_METHOD']){
     </h3>
   
   <div id='list'></div>
-   <?php foreach($store->getAll() as $darzove): ?>
-    <form action="" method="post">
 
 
-    <?php if ($darzove instanceof Agurkas):?>
-   
-    <div class="row">
-    <div class="cucumber"> <img src="img/agurkas.jpg" alt="agurkas" ></div>
-    <div class="nr">Agurkas Nr. <?= $darzove->ID ?> </div> 
-    <?php if ($darzove->count==0): ?>
-    <div class="nr ">Negalima skinti agurku</div> 
-    <?php else: ?>
-        <div class="count "> Galima skinti <?= $darzove->count?></div> 
-   
-    <input class="kiekis" type="text" name="kiek">
-    <button class="two-btn" type="submit" name="skinti"  value="<?= $darzove->ID?>" >Skinti</button>
-    <button class="two-btn" type="submit" name="israuti" value="<?= $darzove->ID?>" >SKINTI VISUS</button>
-    <?php endif ?>
-    </div>
-
-    <?php else: ?>
-
-    <div class="row">
-    <div class="cucumber"> <img src="img/tomato.jpg" alt="pomidoras" ></div>
-    <div class="nr">Pomidoras Nr. <?= $darzove->ID ?> </div> 
-    <?php if ($darzove->count==0): ?>
-    <div class="nr ">Negalima skinti pomidoru</div> 
-    <?php else: ?>
-        <div class="count "> Galima skinti <?= $darzove->count?></div> 
-   
-    <input class="kiekis" type="text" name="kiek">
-    <button class="two-btn" type="submit" name="skinti"  value="<?= $darzove->ID?>" >Skinti</button>
-    <button class="two-btn" type="submit" name="israuti" value="<?= $darzove->ID?>" >SKINTI VISUS</button>
-    <?php endif ?>
-    </div>
-    
-    <?php endif ?>
-    </form> 
-    <?php endforeach ?>
-
-     <form action="" method="post">
+     <form >
        <button class="last-btn" type="button" name="skintiVisus" id="skintiVisus" >Nuimti visa derliu</button>  
      </form>
 
