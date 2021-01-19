@@ -11,7 +11,7 @@ public function add($kiek)
 
 public function nuskintiVisus()
 {
-    $this->count = 0;
+    $this->kiekis = 0;
 } 
 abstract public function kiekAugti();
 

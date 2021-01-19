@@ -1,5 +1,4 @@
-const buttonAll = document.querySelector('#skintiViska');
-const buttonCount = document.querySelector('#skintiKiek');
+const buttonAll = document.querySelector('#skintiVisus');
 const list = document.querySelector('#list');
 const errorMsg = document.querySelector('#error');
 
@@ -9,40 +8,40 @@ document.addEventListener('DOMContentLoaded', () => {
         list: 1,
     })
         .then(function (response) {
-            console.log(response.data);
+            console.log(response);
             list.innerHTML = response.data.list;
-            errorMsg.innerHTML = '';
-            // augurku klases nodai, is naujo pasetint trynimo mygtuko eventus
-            addNewList();
+            skintiKiek();
+            skinti();
         })
         .catch(function (error) {
-            console.log(error.response.data.msg);
+            console.log(error);
             errorMsg.innerHTML = error.response.data.msg;
         });
 
 })
-const addNewList = () => {
+const skinti = () => {
     const darzoves = document.querySelectorAll('.darzoves');
-    console.log(darzoves);
     darzoves.forEach(darzoves => {
-        console.log(darzoves);
-        darzoves.querySelector('[type=button]').addEventListener('click', () => {
-            const id = darzoves.querySelector('[name=skintiVisus]').value;
-            axios.post(apiUrl, {
-                id: id,
-                rauti: 1
-            })
-                .then(function (response) {
-                    console.log(response.data);
-                    list.innerHTML = response.data.list;
-                    errorMsg.innerHTML = '';
-                    addNewList();
+        const button = darzoves.querySelector('[name=israuti]');
+        if (button) {
+            button.addEventListener('click', () => {
+                const id = darzoves.querySelector('[name=israuti]').value;
+                axios.post(apiUrl, {
+                    id: id,
+                    'israuti': 1
                 })
-                .catch(function (error) {
-                    console.log(error.response.data.msg);
-                    errorMsg.innerHTML = error.response.data.msg;
-                });
-        });
+                    .then(function (response) {
+                        console.log(response);
+                        list.innerHTML = response.data.list;
+                        skintiKiek();
+                        skinti();
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                        errorMsg.innerHTML = error.response.data.msg;
+                    });
+            });
+        }
     });
 }
 
@@ -55,7 +54,6 @@ const skintiKiek = () => {
             button.addEventListener('click', () => {
                 const id = darzove.querySelector('[name=skinti]').value;
                 const count = darzove.querySelector('[name=kiek]').value;
-
                 axios.post(apiUrl, {
                     id: id,
                     'kiek': count,
@@ -64,8 +62,9 @@ const skintiKiek = () => {
                     .then(function (response) {
                         console.log(response);
                         list.innerHTML = response.data.list;
-                        // skinti();
-                        // skintiVisusVienoAgurko();
+                        skintiKiek();
+                        skinti();
+
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -77,20 +76,18 @@ const skintiKiek = () => {
 }
 
 
-buttonCount.addEventListener('click', () => {
-    const count = document.querySelector('[name=kiek]').value;
+buttonAll.addEventListener('click', () => {
     axios.post(apiUrl, {
-        'kiekis': count
-
+        'skintiViskus': 1
     })
         .then(function (response) {
-            console.log(response.data);
+            console.log(response);
             list.innerHTML = response.data.list;
-            errorMsg.innerHTML = '';
-            addNewList();
+            skintiKiek();
+            skinti();
         })
         .catch(function (error) {
-            console.log(error.response.data.msg);
+            console.log(error);
             errorMsg.innerHTML = error.response.data.msg;
         });
 });

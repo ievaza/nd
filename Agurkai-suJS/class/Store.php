@@ -105,27 +105,22 @@ public function remove($id) {
     }
 
     
-    public function skinti(){
+    public function skinti($id){
     foreach($this->data['darzoves'] as $index => $darzove ) {
         $darzove = unserialize($darzove);
-    if ($_POST['israuti'] == $darzove->id){
-        $darzove->count = 0;
+    if ($darzove->id == $id){
+        $darzove->nuskintiVisus();
         self::save($index,$darzove);
     }
     }
 }
 
- public  function skintiKieki(){
+ public  function skintiKieki($id, $kiek){
         foreach($this->data['darzoves'] as $index=>$darzove) {
             $darzove = unserialize($darzove);
-        if ($_POST['skinti'] == $darzove->id){
-            $kiekis = (int) $_POST['kiek'];
-        if ($kiekis < 0 || $kiekis > $darzove->count){
-            $_SESSION['err'] = 'Blogas kiekis';
-            header('Location: http://localhost/PHP/nd/Agurkai/skynimas.php');
-            exit;
-            }
-                $darzove->count -= $kiekis;
+        if ( $darzove->id == $id){
+            if ($darzove->kiekis < $kiek) break;
+                $darzove->kiekis -= $kiek;
                 self::save($index, $darzove);  
         }
         }    

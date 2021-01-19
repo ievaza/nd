@@ -40,7 +40,7 @@ if('POST' == $_SERVER['REQUEST_METHOD']){
         exit;
      }
         elseif(isset($rawData['skintiVisus'])){
-             $store->nuimtiDerliu($rawData['skintiVisus']);
+             $store->nuimtiDerliu(); 
 
             ob_start();
             include __DIR__.'/list-harvest.php';
@@ -53,8 +53,10 @@ if('POST' == $_SERVER['REQUEST_METHOD']){
             echo $json;
             exit;
         }     
+
         elseif (isset($rawData['skinti'])){
-         $store->skintiKieki();
+            $kiekis = (int) $rawData['kiek'];
+            $store->skintiKieki($rawData['id'],$kiekis );
 
             ob_start();
             include __DIR__.'/list-harvest.php';
@@ -66,10 +68,11 @@ if('POST' == $_SERVER['REQUEST_METHOD']){
             http_response_code(201); //pridejimo kodas
             echo $json;
             exit;
+
         } 
         elseif (isset($rawData['israuti'])){
-         $store->skinti();
-              ob_start();
+         $store->skinti($rawData['id']);
+            ob_start();
             include __DIR__.'/list-harvest.php';
             $out = ob_get_contents();
             ob_end_clean();
@@ -130,19 +133,13 @@ if('POST' == $_SERVER['REQUEST_METHOD']){
 <h1>Daržovių sodas</h1>
 <h3>Skynimas</h3>
 
-    <h3 style="color:red;">
-     <?php
-        if(isset($_SESSION['err'])){
-            echo $_SESSION['err'];
-            unset($_SESSION['err']);
-        }
-        ?>
-    </h3>
-  
-  <div id='list'></div>
+    
+  <div id="error"></div>
 
-
+ <div id='list'></div>
      <form >
+ 
+     
        <button class="last-btn" type="button" name="skintiVisus" id="skintiVisus" >Nuimti visa derliu</button>  
      </form>
 

@@ -12,7 +12,8 @@
    
     <input class="kiekis" type="text" name="kiek">
     <button class="two-btn" type="button" name="skinti" id="skintiKiek" value="<?= $darzove->id?>" >Skinti</button>
-    <button class="two-btn" type="button" name="israuti"  value="<?= $darzove->id?>" >SKINTI VISUS</button>
+    <button class="two-btn israuti" type="button" name="israuti"  value="<?= $darzove->id?>" >SKINTI VISUS</button>
+    <input type="hidden" name="<?= $darzove->kiekis?>">
     <?php endif ?>
     </div>
 
@@ -28,6 +29,8 @@
     <input class="kiekis" type="text" name="kiek">
     <button class="two-btn" type="button" name="skinti" id="skintiKiek"  value="<?= $darzove->id?>" >Skinti</button>
     <button class="two-btn" type="button" name="israuti" value="<?= $darzove->id?>" >SKINTI VISUS</button>
+    <input type="hidden" name="<?= $darzove->kiekis?>">
+
     <?php endif ?>
     </div>
     
