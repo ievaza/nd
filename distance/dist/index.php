@@ -2,7 +2,6 @@
 
 session_start();
 
-
 if(!empty($_POST)){
 
     $town1 = $_POST['m1'];
@@ -15,12 +14,12 @@ if(!empty($_POST)){
 
     $answer = $DATA->get();
 
-    $_SESSION['method'] = false === $answer ? 'API' : 'CATCHE';
+    
 
+    $_SESSION['method'] = false === $answer ? 'API' : 'CATCHE';
 
     if($answer === false){
   
-
             // Api start
 
             $ch = curl_init(); //inicijuojam obj resursa
@@ -47,13 +46,8 @@ if(!empty($_POST)){
     $_SESSION['img1'] = $answer->stops[0]->wikipedia->image;
     $_SESSION['img2'] = $answer->stops[1]->wikipedia->image;
 
-
-
-    
     header('Location:https://localhost/PHP/nd/distance/dist/');
     exit;
-    
-
 
 }
  if(isset($_SESSION['distance'])){
@@ -63,13 +57,10 @@ if(!empty($_POST)){
     $img1 =  $_SESSION['img1'];
     $img2 =  $_SESSION['img2'];
     $method = $_SESSION['method'];
-
-    
+ 
     unset($_SESSION['distance'],  $_SESSION['t1'] ,  $_SESSION['t2'],  $_SESSION['img1'], $_SESSION['img2'], $_SESSION['method']);
  }
    
-
-
 ?>
 
 
@@ -94,7 +85,6 @@ if(!empty($_POST)){
 
 <?php if(isset($dist)):?>
     <h2> Budas: <?= $method ?? ''?> </h2>
-
 
     <h2> Atstumas yra <?= $dist ?? ''?> KM </h2>
     <img style= "width:50px;"src="<?=$img1 ?? '' ?>" alt="">

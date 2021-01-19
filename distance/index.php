@@ -1,5 +1,4 @@
 <?php
-
 session_start();
 if(!empty($_POST)){
 
@@ -16,7 +15,7 @@ if(!empty($_POST)){
     'https://www.distance24.org/route.json?stops='.$town1.'|'.$town2);
     curl_setopt($ch,CURLOPT_RETURNTRANSFER, true); //norint kazka gaut reikia nepamirsti pasireturnint, kitaip nieko negausim. MUST HAVE
 
-    $answer = curl_exec($ch);//siunciame tuo adresu(16) uzklausa ir laukimas atsakymo
+    $answer = curl_exec($ch);//siunciame tuo adresu(16) uzklausa ir laukiam atsakymo
     $answer = json_decode($answer); //issikoduojam ir gaunam standartini json obj 
 
     _d($answer);
@@ -28,31 +27,23 @@ if(!empty($_POST)){
     $_SESSION['t1'] = $town1;
     $_SESSION['t2'] = $town2;
     $_SESSION['img1'] = $answer->stops[0]->wikipedia->image;
-    $_SESSION['img2'] = $answer->stops[0]->wikipedia->image;
+    $_SESSION['img2'] = $answer->stops[1]->wikipedia->image;
 
-
-
-    
     header('Location:https://localhost/PHP/nd/distance/');
     exit;
-    
-
-
 }
- if(isset($_SESSION['distance'])){
+ if(isset($_SESSION['distance'])){ // jei sesijoj kazkas setinta
     $dist =  $_SESSION['distance'] ;
     $town1 = $_SESSION['t1'] ;
     $town2 = $_SESSION['t2'] ;
     $img1 =  $_SESSION['img1'];
     $img2 =  $_SESSION['img2'];
 
-    unset($_SESSION['distance'],  $_SESSION['t1'] ,  $_SESSION['t2'],  $_SESSION['img1'], $_SESSION['img2']);
+    unset($_SESSION['distance'],  $_SESSION['t1'] ,  $_SESSION['t2'],  $_SESSION['img1'], $_SESSION['img2']); //kad perkrovus psl nebeislystu 
+
  }
    
-
-
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -69,7 +60,6 @@ if(!empty($_POST)){
 <input type="text" name="m2" value="<?= $town2 ?? '' ?>">
 
 <button type="submit">GAUTI ATSTUMA</button>
-
 
 </form>
 
