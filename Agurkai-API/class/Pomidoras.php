@@ -4,7 +4,7 @@ namespace Tomato;
 use Veggies\Darzove;
 
 class Pomidoras extends Darzove{
-    private $count,  $id, $name;
+    private $count,  $id, $name, $price;
 
 
  
@@ -13,6 +13,7 @@ public function __construct($lastid){
     $this->count = 0;
     $this->name = 'Pomidoras';
     $this->kiekAugti = rand(1,3);
+    $this->price = 2.50;
 
 }
 

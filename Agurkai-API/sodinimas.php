@@ -8,6 +8,19 @@ defined('DOOR_BELL')||die('iejimas tik pro duris');
 
 $store = new Store('darzoves');
 
+    //CATCHE START
+include __DIR__ .'/Catche.php';
+$DATA = new Catche;
+
+$rate = App::currency($DATA);
+
+
+
+
+
+
+
+
 if('POST' == $_SERVER['REQUEST_METHOD']){ 
         
        $rawData = file_get_contents("php://input"); 
