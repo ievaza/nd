@@ -1,0 +1,20 @@
+{
+    "name": "ieva/agurkai-mvc",
+    "authors": [
+        {
+            "name": "ievaza",
+            "email": "ievaza@users.noreply.github.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Main\\": "class",
+            "Cucumber\\": "class",
+            "Tomato\\": "class",
+            "Veggies\\": "class",
+            "Controllers\\": "class/controllers"
+
+        }
+    },
+    "require": {}
+}
